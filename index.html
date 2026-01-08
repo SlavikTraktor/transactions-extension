@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>parce-transactions-extension</title>
+  </head>
+  <body>
+    <div id="app" class="p-3">
+      <input type="date" name="from" id="" class="m-2">
+      <input type="date" name="to" id="" class="m-2">
+      <button id="fetchBtn" class="m-2 p-2 bg-blue-500 text-white rounded pointer">Fetch Transactions</button>
+      <div id="error" class="text-red-500"></div>
+    </div>
+    
+    <script type="module" src="./src/popup.ts"></script>
+  </body>
+</html>
