@@ -14,5 +14,5 @@
       "matches": ["https://ibank.bog.ge/*"]
     }
   ],
-  "permissions": ["activeTab"]
+  "permissions": ["downloads", "activeTab"]
 }
