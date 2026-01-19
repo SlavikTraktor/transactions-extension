@@ -1,6 +1,12 @@
 import { parse, set } from "date-fns";
-import { DATE_FORMAT_INPUT, MAKE_TRANSACTIONS_REQUEST, REPSONAL_BOG_TRANSACTIONS_URL, START_DOWNLOAD_FILE } from "./constants";
+import {
+  BACKEND_URL,
+  DATE_FORMAT_INPUT,
+  MAKE_TRANSACTIONS_REQUEST,
+  REPSONAL_BOG_TRANSACTIONS_URL,
+} from "./constants";
 import "./style.css";
+import axios from "axios";
 
 console.log("STEST: ", "working");
 
@@ -18,18 +24,31 @@ chrome.runtime.onMessage.addListener((message) => {
 
     fetchOperations(parsedFromDate, toDateTime).then((res) => {
       console.log("STEST: ", "Fetch res", res);
-      initiateDownload(
-        JSON.stringify(res, null, 2),
-        `transactions_${message.payload.fromDate}_to_${message.payload.toDate}.json`,
-      );
+      // uuid timestamp amount description sender currency source_type
+      const dataToSend = res.data.map((operation: any) => ({
+        uuid: operation.entryId,
+        timestamp: operation.operationDate,
+        amount: +operation.amount,
+        description: operation.nomination,
+        sender: "",
+        currency: operation.ccy,
+        source_type: "bog",
+      }));
+
+      axios.post(`${BACKEND_URL}api/transactions`, {
+        data: dataToSend,
+      }).then((response) => {
+        console.log("STEST: ", "Data successfully sent to backend", response.data);
+      }).catch((error) => {
+        console.error("STEST: ", "Error sending data to backend", error);
+      });
     });
   }
 });
 
 async function fetchOperations(dateFrom: Date, dateTo: Date, limit = 100) {
   console.log("STEST: ", "Fetching transactions from", dateFrom.toISOString(), "to", dateTo.toISOString());
-  const resUrl = REPSONAL_BOG_TRANSACTIONS_URL
-    .replace("{dateFrom}", dateFrom.toISOString())
+  const resUrl = REPSONAL_BOG_TRANSACTIONS_URL.replace("{dateFrom}", dateFrom.toISOString())
     .replace("{dateTo}", dateTo.toISOString())
     .replace("{limit}", limit.toString());
   try {
@@ -41,25 +60,3 @@ async function fetchOperations(dateFrom: Date, dateTo: Date, limit = 100) {
   }
 }
 
-function initiateDownload(data: string, name: string) {
-  const blob = new Blob([data], { type: "text/plain" });
-  const reader = new FileReader();
-
-  reader.onloadend = () => {
-    const base64data = reader.result;
-    chrome.runtime.sendMessage(
-      {
-        type: START_DOWNLOAD_FILE,
-        payload: {
-          url: base64data,
-          filename: name,
-        },
-      },
-      (response) => {
-        console.log("STEST: ", "Download response:", response);
-      },
-    );
-  };
-
-  reader.readAsDataURL(blob);
-}
