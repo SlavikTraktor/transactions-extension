@@ -1,6 +1,6 @@
 import { lastDayOfMonth, lightFormat } from "date-fns";
 import * as _ from "lodash";
-import { DATE_ERROR_TEXT, DATE_FORMAT_INPUT, MAKE_TRANSACTIONS_REQUEST } from "./constants";
+import { DATE_ERROR_TEXT, DATE_FORMAT_INPUT, FETCH_TRANSACTIONS_FROM_WEBSITE } from "./constants";
 import "./style.css";
 
 const fromDateInput = document.querySelector('input[name="from"]') as HTMLInputElement;
@@ -28,7 +28,7 @@ document.getElementById("fetchBtn")?.addEventListener("click", async () => {
     chrome.tabs.sendMessage(
       tab.id,
       {
-        type: MAKE_TRANSACTIONS_REQUEST,
+        type: FETCH_TRANSACTIONS_FROM_WEBSITE,
         payload: {
           fromDate,
           toDate,

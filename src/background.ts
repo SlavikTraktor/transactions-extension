@@ -1,4 +1,5 @@
-import { START_DOWNLOAD_FILE } from "./constants";
+import axios from "axios";
+import { BACKEND_URL, START_DOWNLOAD_FILE, UPLOAD_TRANSACTIONS } from "./constants";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === START_DOWNLOAD_FILE) {
@@ -11,5 +12,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     
     return true;
+  }
+
+  if(message.type === UPLOAD_TRANSACTIONS) {
+    axios.post(`${BACKEND_URL}api/transactions`, {
+        data: message.payload,
+      }).then((response) => {
+        console.log("STEST: ", "Data successfully sent to backend", response.data);
+      }).catch((error) => {
+        console.error("STEST: ", "Error sending data to backend", error);
+      });
   }
 });
