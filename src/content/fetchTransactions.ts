@@ -1,8 +1,10 @@
+import { fetchBogBusinessTransactions } from "./fetchTransactions/fetchBogBusinessTransactions";
 import { fetchBogTransactions } from "./fetchTransactions/fetchBogTransactions";
 import type { FetchTransactionsFunction } from "./types";
 
 const transactionsFunctionMap: Record<string, FetchTransactionsFunction> = {
   "ibank.bog.ge": fetchBogTransactions,
+  "bonline.bog.ge" : fetchBogBusinessTransactions,
 };
 
 export async function fetchTransactions(dateFrom: Date, dateTo: Date, limit = 1000) {

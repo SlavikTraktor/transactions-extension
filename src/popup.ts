@@ -35,7 +35,7 @@ document.getElementById("fetchBtn")?.addEventListener("click", async () => {
         },
       },
       (response) => {
-        console.log("Ответ получено:", response?.status);
+        console.log("STEST: Ответ получено:", response?.status);
       },
     );
   }

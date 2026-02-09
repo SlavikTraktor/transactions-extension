@@ -19,7 +19,7 @@ export const fetchBogTransactions: FetchTransactionsFunction = async (
       res.data.map((operation: any) => ({
         uuid: operation.entryId,
         timestamp: operation.operationDate,
-        amount: +operation.amount,
+        amount: +operation.amount * -1,
         description: operation.nomination,
         sender: "",
         currency: operation.ccy,
