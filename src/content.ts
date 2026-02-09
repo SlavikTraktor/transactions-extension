@@ -5,7 +5,7 @@ import { fetchTransactions } from "./content/fetchTransactions";
 
 console.log("STEST: ", "working");
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   if (message.type === FETCH_TRANSACTIONS_FROM_WEBSITE) {
     console.log("STEST:", message.payload);
     const parsedFromDate = parse(message.payload.fromDate, DATE_FORMAT_INPUT, new Date());

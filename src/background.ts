@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BACKEND_URL, START_DOWNLOAD_FILE, UPLOAD_TRANSACTIONS } from "./constants";
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
   if (message.type === START_DOWNLOAD_FILE) {
     chrome.downloads.download(
       {
