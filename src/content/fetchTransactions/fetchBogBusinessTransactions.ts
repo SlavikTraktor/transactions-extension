@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import type { FetchTransactionsFunction, FetchTransactionsResult } from "../types";
+import { transliterateGeorgian } from "../../helpers/translitGeorgian";
 
 export const BUSINESS_BOG_TRANSACTIONS_URL = "https://bonline.bog.ge/api";
 
@@ -58,7 +59,7 @@ export const fetchBogBusinessTransactions: FetchTransactionsFunction = async (
           timestamp: format(new Date(operation.valueDate), "yyyy-MM-dd 00:00:00"),
           amount: operation.amount,
           description: operation.nomination,
-          sender: operation.senderBenefName,
+          sender: transliterateGeorgian(operation.senderBenefName),
           currency: operation.ccy,
           source_type: "bog_business",
         }));
