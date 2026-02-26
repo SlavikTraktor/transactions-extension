@@ -21,9 +21,17 @@ export const fetchBogTransactions: FetchTransactionsFunction = async (
         timestamp: operation.operationDate,
         amount: +operation.amount * -1,
         description: operation.nomination,
-        sender: "",
+        sender: getSenderFromDescription(operation.nomination),
         currency: operation.ccy,
         source_type: "bog",
       })),
     );
 };
+
+
+const getSenderFromDescription = (description: string) => {
+  const regex = /Sender:\s*([^;]+)/;
+  const match = description.match(regex);
+
+  return match && match[1] ? match[1].trim() : null;
+}
