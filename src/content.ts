@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
 
     fetchTransactions(parsedFromDate, parsedToDateWithTime)
       .then((dataToSend) => {
-        console.log("STEST: ", "Fetch res", dataToSend);
+        console.log("STEST: ", "Fetch dataToSend", dataToSend);
 
         chrome.runtime.sendMessage({ type: UPLOAD_TRANSACTIONS, payload: dataToSend }, (response) => {
           console.log("Ответ от бекенда через бэкграунд:", response);
@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
         sendResponse("Success");
       })
       .catch((err: Error) => {
-        console.log("STEST: ", "Fetch res", err.message);
+        console.log("STEST: ", "Fetch error", err.message);
         sendResponse(err.message);
       });
 

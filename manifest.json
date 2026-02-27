@@ -8,13 +8,16 @@
   "background": {
     "service_worker": "src/background.ts"
   },
-  "host_permissions": [
-    "http://localhost/*" 
-  ],
+  "host_permissions": ["http://localhost/*"],
   "content_scripts": [
     {
       "js": ["src/content.ts"],
-      "matches": ["https://ibank.bog.ge/*", "https://bonline.bog.ge/*"]
+      "matches": [
+        "https://ibank.bog.ge/*",
+        "https://bonline.bog.ge/*",
+        "https://www.tbank.ru/*",
+        "https://www.paypal.com/*"
+      ]
     }
   ],
   "permissions": ["downloads", "activeTab"]
