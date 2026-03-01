@@ -29,22 +29,24 @@ export const fetchPaypalTransactions: FetchTransactionsFunction = async (
   })
     .then((response) => response.json())
     .then((res) => {
-      return res.data.data.activity.transactions.map((operation: any) => ({
-        uuid: `${operation.id}`,
-        timestamp: format(
-          new Date(operation.date.rawDate.date),
-          "yyyy-MM-dd HH:mm:ss",
-        ),
-        amount: +operation.amountInfo.contents.amountText
-          .replace("&minus;", "-")
-          .replace(/[^0-9,+-]/g, "")
-          .replace(",", "."),
-        description:
-          operation.descriptionInfo.content.transactionDescriptionText,
-        sender: operation.counterpartyInfo.counterpartyName,
-        currency: operation.amounts.currencyCode,
-        source_type: "paypal",
-      }));
+      return res.data.data.activity.transactions
+        .map((operation: any) => ({
+          uuid: `${operation.id}`,
+          timestamp: format(
+            new Date(operation.date.rawDate.date),
+            "yyyy-MM-dd HH:mm:ss",
+          ),
+          amount: +operation.amountInfo.contents.amountText
+            .replace("&minus;", "-")
+            .replace(/[^0-9,+-]/g, "")
+            .replace(",", "."),
+          description:
+            operation.descriptionInfo.content.transactionDescriptionText,
+          sender: operation.counterpartyInfo.counterpartyName,
+          currency: operation.amounts.currencyCode,
+          source_type: "paypal",
+        }))
+        .filter((o: any) => o.amount > 0);
     });
   return res;
 };
