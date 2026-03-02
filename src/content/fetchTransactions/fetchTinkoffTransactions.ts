@@ -7,7 +7,7 @@ export const TINKOFF_TRANSACTIONS_URL =
 export const fetchTinkoffTransactions: FetchTransactionsFunction = async (
   dateFrom: Date,
   dateTo: Date,
-  limit = 1000,
+  _ = 1000,
 ): Promise<FetchTransactionsResult[]> => {
   const sessionId = await getCookieValue("psid");
 

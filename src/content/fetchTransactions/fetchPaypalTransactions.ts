@@ -14,7 +14,7 @@ const baseQuery =
 export const fetchPaypalTransactions: FetchTransactionsFunction = async (
   dateFrom: Date,
   dateTo: Date,
-  limit = 1000,
+  _ = 1000,
 ): Promise<FetchTransactionsResult[]> => {
   const encodedQuery = btoa(
     baseQuery
